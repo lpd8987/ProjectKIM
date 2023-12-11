@@ -9,8 +9,6 @@ function checkSignIn() : boolean {
     else return false;
 }
 
-
-
 async function googleSignIn () {
     const auth = getAuth(fbApp);
     const provider = new GoogleAuthProvider();
