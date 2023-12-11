@@ -29,8 +29,6 @@
     <h1>HOME PAGE</h1>
     <h2>Hello {{ username }}!</h2>
     <img src="" ref="userPic">
-
-
 </template>
 
 <style scoped>
