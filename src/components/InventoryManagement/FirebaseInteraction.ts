@@ -14,6 +14,10 @@ async function setData(collection: string, item: string, value: {[key : string] 
     await setDoc(docTemplate, value);
 }
 
+async function updateInventory() {}
+async function updateRecipes() {}
+async function updateList() {}
+
 export {
     getData,
     setData,
