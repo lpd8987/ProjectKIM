@@ -1,12 +1,13 @@
 <script setup lang="ts">
-    import { useUserDataStore } from "@/stores/UserDataStore";
     import { onMounted, ref } from "vue";
+    import { getAuth } from "firebase/auth";
 
-    const userDataStore = useUserDataStore();
     const username = ref<string | undefined>("")
+    
+    const auth = getAuth();
 
     onMounted(() => {
-        username.value = userDataStore.getUsername();
+        username.value = auth.currentUser!.displayName!
     })
 </script>
 
