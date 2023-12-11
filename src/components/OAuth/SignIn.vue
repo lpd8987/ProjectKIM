@@ -1,8 +1,12 @@
 <script setup lang="ts">
     import { ref, onMounted } from "vue";
     import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
+    import { useUserDataStore } from "@/stores/UserDataStore";
+    import router from '../../router'
+
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
+    const userDataStore = useUserDataStore();
 
     const signInBtn = ref<HTMLButtonElement | undefined>(undefined);
 
@@ -18,7 +22,12 @@
                     const token = credential.accessToken;
                     const user = result.user;
 
-                    
+                    if(token) userDataStore.setToken(token);
+                    if(user && user.displayName) {
+                        userDataStore.setUsername(user.displayName.split(' ')[0]);
+                    }
+
+                    router.push("/")
                 }).catch((error) => {
                     // Handle Errors here.
                     const errorCode = error.code;
