@@ -2,24 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useUserDataStore = defineStore('userData', () => {
-    const username = ref<string | undefined>("");
-    const token = ref<string | undefined>("")
+    const currentUUID = ref<string | null>(null)
 
-    function getUsername() {
-        return username.value
+    function setUUID (uuid : string) : void {
+        currentUUID.value = uuid;
     }
 
-    function getToken() {
-        return token.value
+    function clearUUID () : void {
+        currentUUID.value = null;
     }
 
-    function setUsername(newUsername : string) {
-        username.value = newUsername;
-    }
-    
-    function setToken(newToken : string) {
-        token.value = newToken;
-    }
-
-    return {getUsername, setUsername, getToken, setToken }
+    return { currentUUID, setUUID, clearUUID }
 })
