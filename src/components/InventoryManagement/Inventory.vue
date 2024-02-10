@@ -21,7 +21,7 @@
     }
 
     async function addItem() {
-        console.log("do the thing!")
+        //console.log("do the thing!")
         if(!uuid) return;
 
         await addInventoryItem(uuid, "bread", {amount: 1});
