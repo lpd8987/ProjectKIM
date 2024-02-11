@@ -1,15 +1,16 @@
-type Quantity = 'Full' | 'Half Full' | 'Low' | 'Empty';
+type Quantity = 'Well Stocked' | 'Moderately Stocked' | 'Low' | 'Empty';
 type ItemType = 'Ingredient' | 'Condiment' | 'Meal' | 'Snack' | 'Utility';
 type GroceryType = 'Baby Supplies' | 'Baking' | 'Bakery' | 'Beverages' | 'Breakfast' | 'Condiments' | 'Dairy' | 'Deli' | 'Frozen' | 'Grains and Pastas' | 'Health' | 'Cleaning' | 'Meat' | 'Produce' | 'Seafood' | 'Snack Food' | 'Instant Meal' | 'Alcohol' | 'Other'
 
-type Item = {
+export type Item = {
+    name: string,
     itemId: string,
-    quantity: Quantity | number,
+    quantity: Quantity,
+    exactQuantity?: number,
     measurement?: string,
     storageLocation?: string,
     type: Array<ItemType>,
     groceryType: Array<GroceryType>,
-    addedDate?: Date,
     expirationDate?: Date,
     notes?: string
 }

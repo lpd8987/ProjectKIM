@@ -2,6 +2,8 @@
     import { RouterLink } from 'vue-router';
     import { hasInventory, addInventoryCollection, addInventoryItem } from './FirebaseInteraction'
     import { onMounted, ref } from 'vue';
+    import InventoryItem from './InventoryItem.vue';
+    import { placeholderData } from './Utility';
 
     const inventory = ref<boolean>(false);
 
@@ -38,11 +40,13 @@
 
     <br><br>
 
-    <button @click="addItem">
+<!--     <button @click="addItem">
         DO DA THING
-    </button>
+    </button> -->
 
     <RouterLink :to="'/'">HOME</RouterLink>
+    <InventoryItem :data="placeholderData"/>
+    
 </template>
 
 <style scoped>
