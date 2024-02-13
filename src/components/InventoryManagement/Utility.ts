@@ -3,7 +3,7 @@ import type { Item } from "./Types"
 export const placeholderData : Item = {
     name: "ITEM",
     itemId: 'i_item',
-    quantity: 'Well Stocked',
+    quantity: 'Well-Stocked',
     exactQuantity: 10,
     measurement: 'things',
     storageLocation: 'pantry',

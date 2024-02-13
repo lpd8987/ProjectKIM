@@ -1,0 +1,69 @@
+Location Check SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/532536/location-check
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Notes SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/532913/notes
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Shop Bag Shopper SVG Vector
+-Collection: Simple Drawn Interface Icons
+-License: CC0 License
+-Author: SVG Repo
+link: https://www.svgrepo.com/svg/419163/shop-bag-shopper
+license: PUBLIC DOMAIN
+
+Clock Ten SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/532121/clock-ten
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Calendar Check SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/533385/calendar-check
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Calendar Exclamation SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/533390/calendar-exclamation-alt
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Trash Xmark SVG Vector
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/533024/trash-xmark
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Edit 1 SVG Vector
+-Collection: Kalai Oval Interface Icons
+-License: PD License
+-Author: Ananthanath A X Kalaiism
+link: https://www.svgrepo.com/svg/502640/edit-1
+license: PUBLIC DOMAIN
+
+Tag SVG Vector
+-Collection: Interface Duotone Icons 2
+-License: CC0 License
+-Author: SVG Repo
+link: https://www.svgrepo.com/svg/427823/tag
+license: PUBLIC DOMAIN
+
+Circle SVG Vector
+-Collection: Subway SHarp Interface Icons
+-License: CC Attribution License
+-Author: Mariusz Ostrowski
+link: https://www.svgrepo.com/svg/446442/circle
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
