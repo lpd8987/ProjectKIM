@@ -67,3 +67,17 @@ Circle SVG Vector
 -Author: Mariusz Ostrowski
 link: https://www.svgrepo.com/svg/446442/circle
 license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Circle Notch SVG
+-Collection: Dazzle Line Icons
+-License: CC Attribution License
+-Author: Dazzle UI
+link: https://www.svgrepo.com/svg/532238/circle-notch
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Left Arrow SVG
+-Collection: Casino And Gambling Icons
+-License: CC Attribution License
+-Author: Mike Hunter
+link: https://www.svgrepo.com/svg/410373/left-arrow
+license: https://www.svgrepo.com/page/licensing/#CC%20Attribution

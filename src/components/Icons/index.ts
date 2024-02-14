@@ -8,6 +8,8 @@ import EditIcon from "./EditIcon.vue";
 import TrashIcon from "./TrashIcon.vue";
 import CircleIcon from './CircleIcon.vue';
 import CalendarExclamationIcon from './CalendarExclamationIcon.vue'
+import CircleNotchIcon from "./CircleNotchIcon.vue";
+import LeftArrowIcon from './LeftArrowIcon.vue';
 
 export {
     ClockIcon,
@@ -19,5 +21,7 @@ export {
     EditIcon,
     TrashIcon,
     CircleIcon,
-    CalendarExclamationIcon
+    CalendarExclamationIcon,
+    CircleNotchIcon,
+    LeftArrowIcon
 }

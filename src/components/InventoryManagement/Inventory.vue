@@ -1,32 +1,27 @@
 <script setup lang="ts">
     import { RouterLink } from 'vue-router';
-    import { hasInventory, addInventoryCollection, addInventoryItem } from './FirebaseInteraction'
+    import { hasInventory, addInventoryCollection, getCollectionData } from './FirebaseInteraction'
     import { onMounted, ref } from 'vue';
     import InventoryItem from './InventoryItem.vue';
     import { placeholderData } from './Utility';
+    import LoadingScreen from './../LoadingScreen.vue'
+    import AddItemForm from './AddItemForm.vue';
+    import type { Item } from './Types';
 
     const inventory = ref<boolean>(false);
 
     const uuid = localStorage.getItem("uuid");
 
+    const dbData = ref<Array<object>>();
+
+    const loading = ref<boolean>(false);
+
     async function checkInventory() : Promise<void> {
-        //console.log("A")
         if(!uuid) return;
         
-        inventory.value = await hasInventory(uuid);
-
-        //no inventory collection found, add new one to database;
-        if(!inventory.value) {
-            //console.log('Adding Inventory collection')
-            await addInventoryCollection(uuid);
-        }
-    }
-
-    async function addItem() {
-        //console.log("do the thing!")
-        if(!uuid) return;
-
-        await addInventoryItem(uuid, "bread", {amount: 1});
+        loading.value = true;
+        dbData.value = await getCollectionData();
+        loading.value = false;
     }
 
     onMounted(async () => {
@@ -45,10 +40,32 @@
     </button> -->
 
     <RouterLink :to="'/'">HOME</RouterLink>
-    <InventoryItem :data="placeholderData"/>
+
+    <Transition name="slide">
+        <LoadingScreen v-if="loading"/>
+    </Transition>
+
+    <div v-if="dbData && dbData.length > 0">
+        <InventoryItem 
+            v-for="(item, index) of dbData"
+            :data="(item as Item)"
+        />
+    </div>
+    <div v-else-if="dbData && dbData.length === 0">
+        No items found
+    </div>
     
+    <!-- <AddItemForm /> TODO: MAKE THIS WORK-->
 </template>
 
 <style scoped>
+    .slide-enter-active,
+    .slide-leave-active {
+        transition: all .5s ease;
+    }
 
+    .slide-enter-from,
+    .slide-leave-to {
+        opacity: 0%;
+    }
 </style>

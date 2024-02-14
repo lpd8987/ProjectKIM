@@ -18,6 +18,8 @@
 
     const expiringStatus = ref<string>('Expiring Soon');
 
+    const expDate = ref<Date>();
+
 
     function toggle() : void {
         open.value = !open.value;
@@ -43,7 +45,11 @@
         if(!props.data?.expirationDate) return;
         const now = new Date();
 
-        const timeDiffMs = props.data.expirationDate.valueOf() - now.valueOf();
+        expDate.value = new Date(props.data.expirationDate.seconds * 1000);
+        //const expData = new Date(props.data.expirationDate.seconds)
+
+
+        const timeDiffMs = expDate.value.valueOf() - now.valueOf();
         const timeDiffDays = timeDiffMs / 86400000;
 
         if(timeDiffDays > 7) expiringStatus.value='Not Expired'
@@ -52,12 +58,12 @@
     }
 
     onMounted(() => {
+        console.log(props.data)
         setExpiringStatus();
     })
 
     //TODO:
     /*
-    -Types as comma-separated list instead of '[array]''
     -Pull data in from Firestore
     -Create new items
     -Delete items + popup for verification (i.e. "are you sure?")
@@ -80,7 +86,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="item">
         <div @click="toggle" ref="mainDisplay" class="mainDisplayClosed">
             <div class="text">{{ props.data?.name }}</div>
             <Transition name="slide-reverse">
@@ -117,11 +123,21 @@
                     </div>
 
                     <!--Type-->
-                    <div class="flexRow bottomLine"><TagIcon/> Type: {{ data?.type }}</div>
+                    <div class="flexRow bottomLine">
+                        <TagIcon/> Type:
+                        <span v-for="(item, index) of data?.type">
+                            <span v-if="index !== data!.type.length - 1 && data!.type.length > 1">{{ item }},</span>
+                            <span v-else>{{ item }}</span>
+                        </span> 
+                    </div>
 
                     <!--Groc Type-->
                     <div class="flexRow bottomLine">
-                        <CartIcon/> Grocery: {{ data?.groceryType }}
+                        <CartIcon/> Grocery:
+                        <span v-for="(item, index) of data?.groceryType">
+                            <span v-if="index !== data!.groceryType.length - 1 && data!.groceryType.length > 1">{{ item }},</span>
+                            <span v-else>{{ item }}</span>
+                        </span> 
                     </div>
 
                     <!--Expiring?-->
@@ -129,7 +145,7 @@
                         <CalendarCheckIcon class="notExpired" v-if="expiringStatus === 'Not Expired'" />
                         <ClockIcon class="expiringSoon" v-else-if="expiringStatus === 'Expiring Soon'" />
                         <CalendarExclamationIcon class="expired" v-else-if="expiringStatus === 'Expired'" />
-                        {{ expiringStatus==='Not Expired'? `Expires` : expiringStatus }}: {{ data?.expirationDate?.toLocaleDateString() }}
+                        {{ expiringStatus==='Not Expired'? `Expires` : expiringStatus }}: {{ expDate!.toLocaleDateString() }}
                     </div>
 
                     <!--notes?-->
@@ -153,6 +169,10 @@
 
 <style scoped>
     @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .item {
+        margin-top: 5px;
+    }
 
     .outMsg {
         margin-bottom: 5px;
@@ -242,9 +262,7 @@
         display: flex;
         column-gap: 5px;
         align-items: center;
-        height: 28px;
         margin-top: 2px;
-
     }
 
     .btn {
