@@ -81,3 +81,10 @@ Left Arrow SVG
 -Author: Mike Hunter
 link: https://www.svgrepo.com/svg/410373/left-arrow
 license: https://www.svgrepo.com/page/licensing/#CC%20Attribution
+
+Arrow Down 338
+-Collection: Minimal UI Icons
+-License: PD License
+-Author: bypeople
+link: https://www.svgrepo.com/svg/511356/arrow-down-338
+license: PUBLIC DOMAIN

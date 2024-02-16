@@ -1,5 +1,12 @@
 <script setup lang="ts">
-    import { LeftArrowIcon } from '../Icons';
+    import { LeftArrowIcon, CircleIcon } from '../Icons';
+    import DropdownMenu from '../DropdownMenu.vue';
+
+    const stockOptions = [
+        {icon: CircleIcon, fill: 'greenyellow', item: 'Well-Stocked'},
+        {icon: CircleIcon, fill: 'gold', item: 'Moderately-Stocked'},
+        {icon: CircleIcon, fill: 'orangered', item: 'Low'},
+        {icon: CircleIcon, fill: 'gray', item: 'Out'}]
 </script>
 
 <template>
@@ -7,13 +14,31 @@
         <div class="main">
             <h2>ADD NEW ITEM</h2>
 
-<!--             <label for="item">Item: </label>
-            <input name="item" type="text">
+            <div class="itemCol">
+                <div>
+                    <label for="item">Item: </label>
+                    <input name="item" type="text">
+                </div>
 
-            <label for="quantity">Quantity?: </label>
-            <input name="quantity" type="text">
+                <DropdownMenu :options="stockOptions" /> 
 
-            <input type="number"> -->
+                <div class="quantity">
+                    <input type="number" placeholder="Exact Number">
+                    <input type="text" placeholder="Measurement">
+                </div>
+                <div>
+                    <input type="text" placeholder="Location">
+                </div>
+                <div>type - array (tag)</div>
+                <div>groceryType - array (tag)</div>
+                <div>expirationDate - Date (-> timestamp)</div>
+
+                <div class="notes">
+                    <textarea placeholder="Notes:"></textarea>
+                </div>
+            </div>
+
+
 
             <button>SUBMIT</button>
         </div>
@@ -24,6 +49,28 @@
 </template>
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .notes {
+        width: 80%;
+    }
+
+    textarea {
+        width: 100%;
+        height: 72px;
+        font-family: 'Comfortaa', sans-serif;
+        font-size: 24px;
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+
+    .itemCol {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .arrow {
         position: absolute;
         top: 3%;

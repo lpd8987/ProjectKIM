@@ -10,6 +10,7 @@ import CircleIcon from './CircleIcon.vue';
 import CalendarExclamationIcon from './CalendarExclamationIcon.vue'
 import CircleNotchIcon from "./CircleNotchIcon.vue";
 import LeftArrowIcon from './LeftArrowIcon.vue';
+import ChevronDown from "./ChevronDown.vue";
 
 export {
     ClockIcon,
@@ -23,5 +24,6 @@ export {
     CircleIcon,
     CalendarExclamationIcon,
     CircleNotchIcon,
-    LeftArrowIcon
+    LeftArrowIcon,
+    ChevronDown
 }

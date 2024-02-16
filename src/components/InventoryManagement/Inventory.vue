@@ -55,7 +55,7 @@
         No items found
     </div>
     
-    <!-- <AddItemForm /> TODO: MAKE THIS WORK-->
+    <AddItemForm/> 
 </template>
 
 <style scoped>
