@@ -11,6 +11,7 @@ import CalendarExclamationIcon from './CalendarExclamationIcon.vue'
 import CircleNotchIcon from "./CircleNotchIcon.vue";
 import LeftArrowIcon from './LeftArrowIcon.vue';
 import ChevronDown from "./ChevronDown.vue";
+import CrossIcon from './CrossIcon.vue'
 
 export {
     ClockIcon,
@@ -25,5 +26,6 @@ export {
     CalendarExclamationIcon,
     CircleNotchIcon,
     LeftArrowIcon,
-    ChevronDown
+    ChevronDown,
+    CrossIcon
 }

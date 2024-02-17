@@ -7,8 +7,9 @@
     import LoadingScreen from './../LoadingScreen.vue'
     import AddItemForm from './AddItemForm.vue';
     import type { Item } from './Types';
+    import { useFormStore } from '../../stores/FormStore'
 
-    const inventory = ref<boolean>(false);
+    const formStore = useFormStore();
 
     const uuid = localStorage.getItem("uuid");
 
@@ -35,10 +36,6 @@
 
     <br><br>
 
-<!--     <button @click="addItem">
-        DO DA THING
-    </button> -->
-
     <RouterLink :to="'/'">HOME</RouterLink>
 
     <Transition name="slide">
@@ -51,11 +48,21 @@
             :data="(item as Item)"
         />
     </div>
+
     <div v-else-if="dbData && dbData.length === 0">
         No items found
     </div>
+
     
-    <AddItemForm/> 
+    <button @click="formStore.newItemFormOpen = true">
+        Add New Item
+    </button>
+    
+    <Transition name="slideLeft">
+        <AddItemForm 
+            v-if="formStore.newItemFormOpen"
+        /> 
+    </Transition>
 </template>
 
 <style scoped>
@@ -67,5 +74,17 @@
     .slide-enter-from,
     .slide-leave-to {
         opacity: 0%;
+    }
+
+
+    .slideLeft-enter-active,
+    .slideLeft-leave-active {
+        transition: all .5s ease;
+    }
+
+    .slideLeft-enter-from,
+    .slideLeft-leave-to {
+        opacity: 0%;
+        transform: translateY(-100%);
     }
 </style>

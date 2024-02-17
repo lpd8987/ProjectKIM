@@ -8,6 +8,8 @@
         }
     })
 
+    const emits = defineEmits(['selectionChange'])
+
     const selectedDiv = ref<HTMLElement | null>()
     const optionsDiv = ref<HTMLElement | null>()
 
@@ -53,7 +55,7 @@
             <div ref="optionsDiv" :class="'optionsClosed'">
                 <div 
                     v-for="(option, index) of options"
-                    @click="setActive(index)"
+                    @click="setActive(index); $emit('selectionChange', selectedItem)"
                     class="item"    
                 >
                     <component :is="option.icon" :style="`fill: ${option.fill}`"/>
@@ -76,13 +78,14 @@
     .dropdown {
         position: relative;
         width: 80%;
+        margin: 5px;
     }
 
     .selectedClosed {
         transition-property: border-radius;
         transition-duration: .25s;
         transition-timing-function: ease;
-        border: 1px solid gray;
+        border: 2px solid gray;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -98,7 +101,7 @@
         transition-property: border-radius;
         transition-duration: .25s;
         transition-timing-function: ease;
-        border: 1px solid gray;
+        border: 2px solid gray;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -120,14 +123,14 @@
         transition-duration: .5s;
         transition-timing-function: ease;
         max-height: 1000px;
-        width: 100%;
+        width: calc(100% - 4px);
         position: absolute;
         z-index: 100;
         background-color: white;
         padding-bottom: 5px;
         border-radius: 0px 0px 15px 15px;
-        border: 1px solid gray;
-        border-bottom: none;
+        border: 2px solid gray;
+        border-top: none;
     }
 
     .optionsClosed {
