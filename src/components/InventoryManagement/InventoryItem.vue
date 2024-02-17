@@ -4,8 +4,15 @@
     import { onMounted, ref } from 'vue';
     import { LocationCheckIcon, TagIcon, CartIcon, CalendarCheckIcon, NotesIcon, EditIcon, TrashIcon, CircleIcon, CalendarExclamationIcon} from '../Icons'
     import ClockIcon from '../Icons/ClockIcon.vue';
-    
+    import { doc, deleteDoc, getFirestore } from 'firebase/firestore' 
+    import { fbApp } from '@/main';
+    import { useFormStore } from '@/stores/FormStore';
+    import ActionVerification from './ActionVerification.vue';
 
+    const formStore = useFormStore();
+
+    const emits = defineEmits(['deleteItem'])
+    
     const props = defineProps({
         data: {
             type: Object as PropType<Item>,
@@ -57,6 +64,13 @@
         else expiringStatus.value = 'Expiring Soon'
     }
 
+    async function deleteItem () {
+        const document = doc(getFirestore(fbApp), `/inventories/${localStorage.getItem('uuid')}/items/${props.data?.name}`)
+
+        emits('deleteItem', "DELETING ITEM")
+        await deleteDoc(document);
+    }
+
     onMounted(() => {
         console.log(props.data)
         setExpiringStatus();
@@ -64,8 +78,8 @@
 
     //TODO:
     /*
-    -Pull data in from Firestore
-    -Create new items
+    -Pull data in from Firestore - done
+    -Create new items - done
     -Delete items + popup for verification (i.e. "are you sure?")
     -Edit existing items (add/remove/alter properties)
     -Live updates from store (watcher?)
@@ -159,12 +173,26 @@
                     <!--Edit Buttons-->
                     <div class="buttonDiv">
                         <button class="btn editBtn"><EditIcon/> Edit </button>
-                        <button class="btn deleteBtn"><TrashIcon/> Delete</button>
+                        <button 
+                            class="btn deleteBtn"
+                            @click="formStore.verificationOpen = true"
+                        >
+                            <TrashIcon/>
+                            Delete
+                        </button>
                     </div>
                 </div>
             </Transition>
         </div>
     </div>
+
+    <ActionVerification 
+        v-if="formStore.verificationOpen"
+        @affirmative-clicked="async () => await deleteItem()"
+        @negative-clicked="formStore.verificationOpen = false"
+    >
+        Are you sure you want to delete this item?
+    </ActionVerification>
 </template>
 
 <style scoped>
@@ -233,6 +261,7 @@
     }
 
     .deleteBtn {
+        background-color: orangered;
         border-radius: 0px 0px 15px 0px;
         margin-right: 7px;
         margin-left: 4px;

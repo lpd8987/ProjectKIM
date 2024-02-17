@@ -20,7 +20,7 @@ async function googleSignIn () {
             if(!credential){
                 throw new Error();
             }
-            router.push("/")
+            router.push("/inventory")
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;

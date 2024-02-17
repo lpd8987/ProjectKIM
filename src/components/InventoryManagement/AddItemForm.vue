@@ -5,6 +5,7 @@
     import { ref } from 'vue'
     import { useFormStore } from '@/stores/FormStore';
     import type { Item, FirebaseTimestamp } from './Types';
+    import { addInventoryItem } from './FirebaseInteraction'
 
     const emits = defineEmits(['addItem'])
 
@@ -15,8 +16,6 @@
     const exactNum = ref<number>();
     const location = ref<string>();
     const notes = ref<string>();
-
-    const quantityOpen = ref<boolean>(false);
 
     const returnObj : Item = {
         name: '',
@@ -108,8 +107,17 @@
         returnObj.expirationDate = timestampObj;
     }
 
-    function addItemToDB() {
-        if (!validateReturnObj()) return
+    async function addItemToDB() {
+        console.log("CALLED")
+        if (!validateReturnObj()) {
+            console.log("Invalid Return Obj");
+            return
+        }
+        emits('addItem', 'ADDED ITEM');
+
+        await addInventoryItem(localStorage.getItem('uuid')!, returnObj.name, returnObj);
+
+        formStore.newItemFormOpen = false;
     }
 
 </script>
@@ -190,7 +198,7 @@
             </div>
 
             <div class="btnDiv">
-                <button class="submitBtn" @click="$emit('addItem', 'ADD')">SUBMIT</button>
+                <button class="submitBtn" @click="async () => await addItemToDB() ">SUBMIT</button>
             </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { doc, setDoc, deleteDoc, getDoc, getFirestore, DocumentReference, type DocumentData, DocumentSnapshot, type WithFieldValue, QueryDocumentSnapshot } from "firebase/firestore";
 import { fbApp } from "@/main";
+import type { Item } from "./Types";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 type InventoryItem = {
@@ -47,11 +48,11 @@ async function addInventoryCollection(uid : string) {
     }
 }
 
-async function addInventoryItem(uid: string, itemName : string, itemData: InventoryItem) {
+async function addInventoryItem(uid: string, itemName : string, itemData: Item) {
     //console.log('addInventoryItem');
     const docTemplate = doc(getFirestore(fbApp), `/inventories/${uid}/items/${itemName}`);
     try{
-        let inventory = await getDoc(docTemplate);
+        //let inventory = await getDoc(docTemplate);
         //console.log("inventory", inventory.data());
 
         await setDoc(docTemplate, itemData);
@@ -71,9 +72,9 @@ async function hasInventory(uid : string) : Promise<boolean> {
 }
 
 export {
-    getDataItem as getData,
+    getDataItem,
     hasInventory,
     addInventoryCollection,
     addInventoryItem,
-    getInventoryCollection as getCollectionData
+    getInventoryCollection
 }

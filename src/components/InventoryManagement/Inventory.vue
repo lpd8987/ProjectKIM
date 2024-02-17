@@ -1,13 +1,21 @@
 <script setup lang="ts">
-    import { RouterLink } from 'vue-router';
-    import { hasInventory, addInventoryCollection, getCollectionData } from './FirebaseInteraction'
+    import Nav from './../Nav.vue'
+    import { fbApp } from "@/main";
+    import { getInventoryCollection } from './FirebaseInteraction'
     import { onMounted, ref } from 'vue';
     import InventoryItem from './InventoryItem.vue';
-    import { placeholderData } from './Utility';
     import LoadingScreen from './../LoadingScreen.vue'
     import AddItemForm from './AddItemForm.vue';
     import type { Item } from './Types';
     import { useFormStore } from '../../stores/FormStore'
+    import { PlusIcon } from '../Icons';
+    import ActionVerification from './ActionVerification.vue';
+    import { getAuth } from "firebase/auth";
+
+
+    const auth = getAuth(fbApp);
+    const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
+    localStorage.setItem("uuid", existingSessionData.uid);
 
     const formStore = useFormStore();
 
@@ -21,7 +29,7 @@
         if(!uuid) return;
         
         loading.value = true;
-        dbData.value = await getCollectionData();
+        dbData.value = await getInventoryCollection();
         loading.value = false;
     }
 
@@ -32,40 +40,93 @@
 </script>
 
 <template>
-    <h1>YOUR KITCHEN INVENTORY:</h1>
+    <div>
+        <Nav :active-page="'inventory'"/>
 
-    <br><br>
+        <div class="pageTitle">YOUR KITCHEN INVENTORY</div>
 
-    <RouterLink :to="'/'">HOME</RouterLink>
+        <div class="inventory">
+            <div v-if="dbData && dbData.length > 0">
+                <InventoryItem 
+                    v-for="(item, index) of dbData"
+                    :data="(item as Item)"
+                    @delete-item="async () => await checkInventory()"
+                />
+            </div>
+            <div v-else-if="dbData && dbData.length === 0">
+                No items found
+            </div>
+        </div>
+
+        <div class="addNew">
+            <button 
+                class="addItemBtn"
+                @click="formStore.newItemFormOpen = true"
+            >
+                <div>Add New Item</div>
+                <PlusIcon />
+            </button>
+        </div>
+    </div>
 
     <Transition name="slide">
         <LoadingScreen v-if="loading"/>
     </Transition>
-
-    <div v-if="dbData && dbData.length > 0">
-        <InventoryItem 
-            v-for="(item, index) of dbData"
-            :data="(item as Item)"
-        />
-    </div>
-
-    <div v-else-if="dbData && dbData.length === 0">
-        No items found
-    </div>
-
-    
-    <button @click="formStore.newItemFormOpen = true">
-        Add New Item
-    </button>
     
     <Transition name="slideLeft">
         <AddItemForm 
             v-if="formStore.newItemFormOpen"
+            @add-item="async () => await checkInventory()"
         /> 
     </Transition>
 </template>
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .addItemBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 24px;
+        width: 60%;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    
+    .addNew {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        width: 100%;
+        border-top: 1px solid gray;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: lightgray;
+    }
+
+    .inventory {
+        border: 1px solid gray;
+        border-radius: 15px;
+        max-height: 500px;
+        padding: 5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+    .pageTitle {
+        font-weight: 900;
+        font-family: 'Comfortaa', sans-serif;
+        font-size: 24px;
+    }
+
+
     .slide-enter-active,
     .slide-leave-active {
         transition: all .5s ease;

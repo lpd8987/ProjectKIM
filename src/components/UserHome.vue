@@ -3,6 +3,7 @@
     import { getAuth } from "firebase/auth";
     import { useUserDataStore } from "@/stores/UserDataStore";
     import { fbApp } from "@/main";
+    import Nav from "./Nav.vue";
     import SignOut from './OAuth/SignOut.vue'
 
     const username = ref<string | undefined>(undefined);
@@ -30,7 +31,7 @@
 </script>
 
 <template>
-    <SignOut></SignOut>
+    <Nav :active-page="'home'"/>
     <h1>HOME PAGE</h1>
     <h2>Hello {{ username }}!</h2>
     <!-- <img src="" ref="userPic"> -->
