@@ -12,7 +12,6 @@
     import ActionVerification from './ActionVerification.vue';
     import { getAuth } from "firebase/auth";
 
-
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
     localStorage.setItem("uuid", existingSessionData.uid);
@@ -113,9 +112,11 @@
 
     .inventory {
         border: 1px solid gray;
-        border-radius: 15px;
-        max-height: 500px;
-        padding: 5px;
+        border-radius: 20px;
+        max-height: calc(75vh);
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
         overflow-x: hidden;
         overflow-y: scroll;
     }

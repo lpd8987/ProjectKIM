@@ -8,6 +8,9 @@
     import { fbApp } from '@/main';
     import { useFormStore } from '@/stores/FormStore';
     import ActionVerification from './ActionVerification.vue';
+    import EditItemForm from './EditItemForm.vue';
+
+    const editing = ref<boolean>(false);
 
     const formStore = useFormStore();
 
@@ -78,11 +81,6 @@
 
     //TODO:
     /*
-    -Pull data in from Firestore - done
-    -Create new items - done
-    -Delete items + popup for verification (i.e. "are you sure?")
-    -Edit existing items (add/remove/alter properties)
-    -Live updates from store (watcher?)
     -List filters
         -quantity
         -location
@@ -172,7 +170,13 @@
 
                     <!--Edit Buttons-->
                     <div class="buttonDiv">
-                        <button class="btn editBtn"><EditIcon/> Edit </button>
+                        <button 
+                            class="btn editBtn"
+                            @click="editing = true"
+                        >
+                            <EditIcon/> 
+                            Edit 
+                        </button>
                         <button 
                             class="btn deleteBtn"
                             @click="formStore.verificationOpen = true"
@@ -193,10 +197,31 @@
     >
         Are you sure you want to delete this item?
     </ActionVerification>
+
+
+    <Transition name="slide">
+        <EditItemForm
+            v-if="editing"
+            :data="data"
+            @close="editing=false"
+        />
+    </Transition>
+
 </template>
 
 <style scoped>
     @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .slide-enter-active,
+    .slide-leave-active {
+        transition: all .5s ease;
+    }
+
+    .slide-enter-from,
+    .slide-leave-to {
+        opacity: 0%;
+        transform: translateY(-100%);
+    }
 
     .item {
         margin-top: 5px;

@@ -5,12 +5,16 @@
     const props = defineProps({
         tags: {
             type: Array<string>
+        },
+        selected: {
+            type: Array<string>,
+            default: []
         }
     });
 
     const emits = defineEmits(['tagsChanged']);
     
-    const selectedTags = ref<Array<string>>([]);
+    const selectedTags = ref<Array<string>>(props.selected);
     const open = ref<boolean>(false)
 
     function toggleOpen() {
