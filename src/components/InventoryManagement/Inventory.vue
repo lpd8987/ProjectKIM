@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import Nav from './../Nav.vue'
     import { fbApp } from "@/main";
-    import { getInventoryCollection } from './FirebaseInteraction'
+    import { getInventoryCollection } from './../../FirebaseInteraction'
     import { onMounted, ref } from 'vue';
     import InventoryItem from './InventoryItem.vue';
     import LoadingScreen from './../LoadingScreen.vue'
@@ -149,4 +149,4 @@
         opacity: 0%;
         transform: translateY(-100%);
     }
-</style>
+</style>../../FirebaseInteraction

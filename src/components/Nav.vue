@@ -26,9 +26,9 @@
 <template>
     <div class="nav">
         <div class="links">
-            <RouterLink class="link" v-if="props.activePage !== 'inventory'" :to="'/'">Inventory</RouterLink>
-            <RouterLink class="link" v-if="props.activePage !== 'list'" :to="'/'">List</RouterLink>
-            <RouterLink class="link" v-if="props.activePage !== 'recipes'" :to="'/'">Recipes</RouterLink>
+            <RouterLink class="link" v-if="props.activePage !== 'inventory'" :to="'/inventory'">Inventory</RouterLink>
+            <RouterLink class="link" v-if="props.activePage !== 'list'" :to="'/list'">List</RouterLink>
+            <RouterLink class="link" v-if="props.activePage !== 'recipes'" :to="'/recipes'">Recipes</RouterLink>
         </div>
 
         <div 

@@ -1,4 +1,4 @@
-import type { Item } from "./Types"
+import type { Item, ListItem } from "./Types"
 
 export const placeholderData : Item = {
     name: "ITEM",
@@ -9,6 +9,14 @@ export const placeholderData : Item = {
     storageLocation: 'pantry',
     type: ['Ingredient', 'Snack'],
     groceryType: ['Dairy'],
-    expirationDate: new Date(),
+    expirationDate: { seconds: 7, nanoseconds: 7},
     notes: "NOTES ABOUT THE ITEM"
+}
+
+export const placeholderListItemData : ListItem = {
+    name: "LIST ITEM",
+    itemId: 'i_list_item',
+    type: ['Ingredient', 'Snack'],
+    groceryType: ['Dairy'],
+    notes: 'NOTES ABOUT THE ITEM'
 }

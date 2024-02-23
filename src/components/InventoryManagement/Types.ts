@@ -16,7 +16,8 @@ export type Item = {
     notes?: string
 }
 
-type ListItem = {
+export type ListItem = {
+    name: string,
     itemId: string,
     type: Array<ItemType>,
     groceryType: Array<GroceryType>,

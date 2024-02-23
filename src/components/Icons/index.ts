@@ -14,6 +14,8 @@ import ChevronDown from "./ChevronDown.vue";
 import CrossIcon from './CrossIcon.vue'
 import PlusIcon from "./PlusIcon.vue";
 import SignOutIcon from './SignOutIcon.vue';
+import CheckIcon from "./CheckIcon.vue";
+import UndoIcon from "./UndoIcon.vue";
 
 export {
     ClockIcon,
@@ -31,5 +33,7 @@ export {
     ChevronDown,
     CrossIcon,
     PlusIcon,
-    SignOutIcon
+    SignOutIcon,
+    CheckIcon,
+    UndoIcon
 }

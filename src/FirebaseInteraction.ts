@@ -1,6 +1,6 @@
 import { doc, setDoc, deleteDoc, getDoc, getFirestore, DocumentReference, type DocumentData, DocumentSnapshot, type WithFieldValue, QueryDocumentSnapshot } from "firebase/firestore";
 import { fbApp } from "@/main";
-import type { Item } from "./Types";
+import type { Item } from "./components/InventoryManagement/Types";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 type InventoryItem = {

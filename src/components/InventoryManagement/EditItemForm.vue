@@ -6,7 +6,7 @@
     import { useFormStore } from '@/stores/FormStore';
     import type { Item, FirebaseTimestamp } from './Types';
     import type { PropType } from 'vue';
-    import { addInventoryItem } from './FirebaseInteraction'
+    import { addInventoryItem } from './../../FirebaseInteraction'
 
     const emits = defineEmits(['close', 'save'])
 
@@ -404,4 +404,4 @@
         z-index: 150;
         background-color: rgba(20, 20, 20, .9);
     }
-</style>
+</style>../../FirebaseInteraction
