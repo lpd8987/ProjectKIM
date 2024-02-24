@@ -3,38 +3,58 @@
     import { SignOutIcon } from './Icons'
     import { signOutSession } from './OAuth/OAuth'
     import router from './../router'
+    import { ref } from 'vue';
     import { useFormStore } from '@/stores/FormStore';
     import ActionVerification from './InventoryManagement/ActionVerification.vue';
 
+    const active = ref<string>('inventory');
     const formStore = useFormStore();
 
-    const props = defineProps({
-        activePage: {
-            type: String
-        }
-    })
+    const emits = defineEmits(['activeChanged'])
 
     async function signOut() {
         await signOutSession();
         router.push('/signIn');
 
         formStore.signOutOpen = false
-    } 
-
+    }
+    
+    function setActivePage (page : string) {
+        active.value = page;
+    }
+    
 </script>
 
 <template>
     <div class="nav">
-        <div class="links">
-            <RouterLink class="link" v-if="props.activePage !== 'inventory'" :to="'/inventory'">Inventory</RouterLink>
-            <RouterLink class="link" v-if="props.activePage !== 'list'" :to="'/list'">List</RouterLink>
-            <RouterLink class="link" v-if="props.activePage !== 'recipes'" :to="'/recipes'">Recipes</RouterLink>
-        </div>
+
+        <RouterLink 
+            :class="active === 'inventory'? 'linkActive' : 'link'" 
+            @click="setActivePage('inventory')"
+            :to="'/inventory'"
+        >
+            Inventory
+        </RouterLink>
+
+        <RouterLink
+            :class="active === 'list'? 'linkActive' : 'link'" 
+            @click="setActivePage('list')"
+            :to="'/list'"
+        >
+            List
+        </RouterLink>
+
+        <RouterLink
+            :class="active === 'recipes'? 'linkActive' : 'link'" 
+            @click="setActivePage('recipes')"
+            :to="'/recipes'"
+        >
+            Recipes
+        </RouterLink>
 
         <div 
             class="signOutBtn"
             @click="formStore.signOutOpen = true">
-            Sign Out &nbsp;
             <SignOutIcon/>
         </div>
     </div>
@@ -59,6 +79,8 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .nav {
@@ -70,27 +92,39 @@
         border: 1px solid gray;
         background-color: lightgray;
         margin-bottom: 10px;
-        border-radius: 10px 10px 0px 0px;
+        border-radius: 10px 10px 10px 10px;
 
-    }
-
-    .links {
-        width: 60%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: center;
     }
 
     .link {
+        transition-property: border-radius, color, background-color;
+        transition-duration: .5s;
+        transition-timing-function: ease;
         text-align: center;
         width: 90%;
-        border-right: 1px solid gray;
         padding: 5px;
         margin: 2px;
         font-size: 20px;
         text-decoration: none;
         font-family: 'Comfortaa', sans-serif;
         color: black;
+    }
+
+    .linkActive {
+        transition-property: border-radius, color, background-color;
+        transition-duration: .5s;
+        transition-timing-function: ease;
+        text-align: center;
+        width: 90%;
+        border-right: 1px solid gray;
+        background-color: gray;
+        color: lightgray;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 2px;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: 'Comfortaa', sans-serif;
+        font-weight: 900;
     }
 </style>

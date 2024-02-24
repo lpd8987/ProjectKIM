@@ -3,10 +3,6 @@ import { fbApp } from "@/main";
 import type { Item } from "./components/InventoryManagement/Types";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
-type InventoryItem = {
-    amount: number
-}
-
 async function getDataItem(collection: string, item: string) : Promise<DocumentSnapshot<DocumentData, DocumentData> | undefined>
 {
     const db = getFirestore(fbApp);
@@ -37,17 +33,6 @@ async function getInventoryCollection() {
     return returnObj;
 }
 
-async function addInventoryCollection(uid : string) {
-    //console.log("addInventoryCollection")
-    const docTemplate = doc(getFirestore(fbApp), `inventories`, uid);
-    try{
-        await setDoc(docTemplate, {});
-    }
-    catch (error: any) {
-        console.log(error.message)
-    }
-}
-
 async function addInventoryItem(uid: string, itemName : string, itemData: Item) {
     //console.log('addInventoryItem');
     const docTemplate = doc(getFirestore(fbApp), `/inventories/${uid}/items/${itemName}`);
@@ -62,19 +47,26 @@ async function addInventoryItem(uid: string, itemName : string, itemData: Item) 
     }
 }
 
-async function hasInventory(uid : string) : Promise<boolean> {
-    let data = await getDataItem('inventories', uid);
+async function getListCollection() {
+    const db = getFirestore(fbApp);
+    const currUser = localStorage.getItem('uuid');
+    const inventoryCollectionRef = collection(db, `/lists/${currUser}/items`);
 
-    //console.log("data", data);
+    const q = query(inventoryCollectionRef);
+    const querySnapshot = await getDocs(q);
 
-    if(data?.exists()) return true;
-    else return false;
+    //console.log('querySnapshot', querySnapshot);
+
+    const returnObj : DocumentData[]= []
+
+    querySnapshot.forEach((doc) => returnObj.push(doc.data()));
+    return returnObj;
 }
+
 
 export {
     getDataItem,
-    hasInventory,
-    addInventoryCollection,
     addInventoryItem,
-    getInventoryCollection
+    getInventoryCollection,
+    getListCollection,
 }

@@ -37,8 +37,8 @@
 
 <template>
     <div class="grocItem">
-        <div :class="open? 'itemHeaderOpen' : 'itemHeaderClosed'">
-            <div class="left"  @click="toggleOpen">
+        <div :class="[open? 'itemHeaderOpen' : 'itemHeaderClosed', checked? 'headerChecked' : 'header']">
+            <div :class="'left'"  @click="toggleOpen">
                 <ChevronDown />
                 <div class="title">
                     <Transition :name="checked? 'undo' : 'check'" mode="out-in">
@@ -49,18 +49,16 @@
             </div>
 
             <Transition name="slide">
-                <div class="right" v-if="!open" @click="toggleChecked">
-                    <!-- <TrashIcon /> -->
+                <div :class="[checked? 'rightChecked' : 'right']" v-if="!open" @click="toggleChecked">
                     <Transition :name="checked? 'undo' : 'check'" mode="out-in">
                         <CheckIcon v-if="!checked" />
                         <UndoIcon v-else/>
                     </Transition>
                 </div>
             </Transition>
-
         </div>
 
-        <div v-if="open" class="itemContent">
+        <div :class="open? 'itemContentOpen' : 'itemContent'">
             <div class="propRow">
                 <CartIcon />
                 <div class="rowContent">Grocery:
@@ -91,7 +89,7 @@
                 <div class="btn leftBtn"><div>Delete</div> <TrashIcon/> </div>
                 <div class="btn centerBtn"><div>Edit</div> <EditIcon/> </div>
                 <div 
-                    class="btn rightBtn"
+                    :class="['btn', checked? 'rightBtn' : 'rightBtnChecked']"
                     @click="toggleChecked"
                 >
                     <Transition :name="checked? 'undo' : 'check'" mode="out-in">
@@ -236,6 +234,14 @@
         width: 100%;
         margin: 5px;
         border-radius: 0px 0px 15px 0px;
+        background-color: lightgray;
+    }
+
+    .rightBtnChecked {
+        width: 100%;
+        margin: 5px;
+        border-radius: 0px 0px 15px 0px;
+        background-color: greenyellow;
     }
 
     .itemHeaderOpen {
@@ -260,6 +266,16 @@
         border-radius: 20px;
     }
 
+    .headerChecked {
+        transition: background-color .5s ease;
+        background-color: greenyellow;
+    }
+
+    .header {
+        transition: background-color .5s ease;
+        background-color: white;
+    }
+
     .left {
         display: flex;
         flex-direction: row;
@@ -269,7 +285,17 @@
         height: 100%;
     }
 
+    .leftChecked {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 85%;
+        padding-left: 7px;
+        height: 100%;
+    }
+
     .right {
+        transition: background-color .5s ease;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -278,14 +304,37 @@
         border-radius: 15px;
         margin-right: 5px;
         border: 3px solid gray;
+        background-color: greenyellow;
     }
 
-    .itemContent {
+    .rightChecked {
+        transition: background-color .5s ease;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 15%;
+        border-radius: 15px;
+        margin-right: 5px;
+        border: 3px solid gray;
+        background-color: lightgray;
+    }
+
+    .itemContentOpen {
+        transition: max-height .25s ease;
         border-right: 3px solid gray;
         border-left: 3px solid gray;
         border-bottom: 3px solid gray;
         border-radius: 0px 0px 20px 20px;
+        max-height: 1000px;
     }
+
+    .itemContent {
+        transition: max-height .25s ease;
+        max-height: 0px;
+        overflow: hidden;
+    }
+
 
     .grocItem {
         width: 100%;

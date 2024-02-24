@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    import Nav from './../Nav.vue'
     import { fbApp } from "@/main";
     import { getInventoryCollection } from './../../FirebaseInteraction'
     import { onMounted, ref } from 'vue';
@@ -9,7 +8,6 @@
     import type { Item } from './Types';
     import { useFormStore } from '../../stores/FormStore'
     import { PlusIcon } from '../Icons';
-    import ActionVerification from './ActionVerification.vue';
     import { getAuth } from "firebase/auth";
 
     const auth = getAuth(fbApp);
@@ -33,15 +31,13 @@
     }
 
     onMounted(async () => {
-        await checkInventory();
+        setTimeout(await checkInventory, 100);
     })
 
 </script>
 
 <template>
     <div>
-        <Nav :active-page="'inventory'"/>
-
         <div class="pageTitle">YOUR KITCHEN INVENTORY</div>
 
         <div class="inventory">
@@ -89,7 +85,7 @@
         align-items: center;
         justify-content: space-between;
         font-size: 24px;
-        width: 60%;
+        width: 80%;
         padding: 15px;
         border-radius: 15px;
     }
@@ -101,10 +97,11 @@
         justify-content: center;
         align-items: center;
         position: absolute;
-        bottom: 0%;
-        left: 0%;
-        width: 100%;
-        border-top: 1px solid gray;
+        bottom: 7px;
+        left: 7px;
+        width: calc(100% - 14px);
+        border: 1px solid gray;
+        border-radius: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
         background-color: lightgray;
@@ -124,7 +121,8 @@
     .pageTitle {
         font-weight: 900;
         font-family: 'Comfortaa', sans-serif;
-        font-size: 24px;
+        font-size: 22px;
+        text-align: center;
     }
 
 
