@@ -12,7 +12,7 @@
         }
     });
 
-    const emits = defineEmits(['tagsChanged']);
+    const emits = defineEmits([`tagsChanged`]);
     
     const selectedTags = ref<Array<string>>(props.selected);
     const open = ref<boolean>(false)
@@ -29,6 +29,9 @@
         selectedTags.value.splice(itemIndex, 1);
     }
 
+    function logTags() {
+        console.log('selectedTags', selectedTags.value)
+    }
 </script>
 
 <template>

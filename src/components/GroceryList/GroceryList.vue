@@ -4,22 +4,22 @@
     import { getListCollection } from './../../FirebaseInteraction'
     import { onMounted, ref } from 'vue';
     import LoadingScreen from './../LoadingScreen.vue'
+    import AddGrocItemForm from './AddGrocItemForm.vue';
     import { useFormStore } from '../../stores/FormStore'
     import { getAuth } from "firebase/auth";
     import type { ListItem } from '../InventoryManagement/Types';
-
+    import { PlusIcon } from './../Icons'
 
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
     localStorage.setItem("uuid", existingSessionData.uid);
 
+
     const formStore = useFormStore();
-
     const uuid = localStorage.getItem("uuid");
-
     const dbData = ref<Array<object>>();
-
     const loading = ref<boolean>(false);
+    const checkedNum = ref<number>(0);
 
     async function checkList() : Promise<void> {
         if(!uuid) return;
@@ -35,13 +35,23 @@
 </script>
 
 <template>
-    <h1>YOUR GROCERY LIST:</h1>
+    <div class="title">YOUR GROCERY LIST:</div>
+
+    <Transition name="slide">
+        <div class="addBtn" v-if="checkedNum > 0">
+            Add all checked to inventory
+            <PlusIcon />
+        </div>
+    </Transition>
+
     <div class="list">
         <div v-if="dbData && dbData.length > 0">
             <GroceryListItem 
                 v-for="(item, index) of dbData"
                 :data="(item as ListItem)"
                 @delete-item="async () => await checkList()"
+                @uncheck="checkedNum--"
+                @check="checkedNum++"
             />
         </div>
         <div v-else-if="dbData && dbData.length === 0">
@@ -49,12 +59,103 @@
         </div>
     </div>
 
+    <div class="addNew">
+        <button 
+            class="addItemBtn"
+            @click="formStore.newItemFormOpen = true"
+        >
+            <div>Add New Item</div>
+            <PlusIcon />
+        </button>
+    </div>
+
     <Transition name="slide">
         <LoadingScreen v-if="loading"/>
+    </Transition>
+
+    <Transition name="slideLeft">
+        <AddGrocItemForm 
+            v-if="formStore.newItemFormOpen"
+            @add-item="async () => await checkList()"
+        /> 
     </Transition>
 </template>
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .addItemBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 24px;
+        width: 80%;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    
+    .addNew {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 7px;
+        left: 7px;
+        width: calc(100% - 14px);
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: lightgray;
+    }
+
+    .slide-enter-active,
+    .slide-leave-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-enter-from,
+    .slide-leave-to {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    .addBtn {
+        margin-bottom: 5px;
+        font-family: 'Comfortaa', sans-serif;
+        border: 3px solid gray;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        border-radius: 15px;
+        background-color: lightgray;
+    }
+
+    .stats{
+        display: flex;
+        flex-direction: column;
+        font-family: 'Comfortaa', sans-serif;
+        font-size: 18px;
+        border: 3px solid gray;
+        border-radius: 10px;
+        padding: 7px;
+        margin-bottom: 5px;
+        transition: height .5px ease;
+    }
+
+    .title {
+        font-family: 'Comfortaa', sans-serif;
+        font-size: 22px;
+        font-weight: 900;
+        text-align: center;
+    }
+
     .slide-enter-active,
     .slide-leave-active {
         transition: all .5s ease;

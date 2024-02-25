@@ -79,8 +79,10 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin-left: 5px;
+        height: 36px;
+        padding-left: 5px;
         margin-right: 5px;
+        border-left: 1px solid gray;
     }
 
     .nav {
@@ -88,12 +90,11 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        position: relative;
+        position: sticky;
         border: 1px solid gray;
         background-color: lightgray;
         margin-bottom: 10px;
         border-radius: 10px 10px 10px 10px;
-
     }
 
     .link {

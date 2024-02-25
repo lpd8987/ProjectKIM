@@ -1,6 +1,6 @@
 import { doc, setDoc, deleteDoc, getDoc, getFirestore, DocumentReference, type DocumentData, DocumentSnapshot, type WithFieldValue, QueryDocumentSnapshot } from "firebase/firestore";
 import { fbApp } from "@/main";
-import type { Item } from "./components/InventoryManagement/Types";
+import type { ListItem, Item } from "./components/InventoryManagement/Types";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 async function getDataItem(collection: string, item: string) : Promise<DocumentSnapshot<DocumentData, DocumentData> | undefined>
@@ -63,10 +63,25 @@ async function getListCollection() {
     return returnObj;
 }
 
+async function addListItem(uid: string, itemName : string, itemData: ListItem) {
+    //console.log('addInventoryItem');
+    const docTemplate = doc(getFirestore(fbApp), `/lists/${uid}/items/${itemName}`);
+    try{
+        //let inventory = await getDoc(docTemplate);
+        //console.log("inventory", inventory.data());
+
+        await setDoc(docTemplate, itemData);
+    }
+    catch (error: any) {
+        console.log(error.message)
+    }
+}
+
 
 export {
     getDataItem,
     addInventoryItem,
     getInventoryCollection,
     getListCollection,
+    addListItem,
 }

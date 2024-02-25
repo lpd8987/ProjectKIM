@@ -12,6 +12,8 @@
         }
     })
 
+    const emits = defineEmits(['check', 'uncheck'])
+
     const open = ref<boolean>(false);
     const checked = ref<boolean>(false);
 
@@ -21,6 +23,13 @@
 
     function toggleChecked() {
         checked.value = !checked.value
+
+        if(checked.value) {
+            emits('check');
+        }
+        else {
+            emits('uncheck');
+        }
     }
 
 
@@ -340,6 +349,7 @@
         width: 100%;
         /* border: 1px solid green; */
         font-family: 'Comfortaa', sans-serif;
+        margin-bottom: 5px;
     }
 
 </style>
