@@ -9,6 +9,7 @@
     import { useFormStore } from '@/stores/FormStore';
     import ActionVerification from './ActionVerification.vue';
     import EditItemForm from './EditItemForm.vue';
+    import { deleteInventoryItem } from '@/FirebaseInteraction';
 
     const editing = ref<boolean>(false);
 
@@ -68,10 +69,8 @@
     }
 
     async function deleteItem () {
-        const document = doc(getFirestore(fbApp), `/inventories/${localStorage.getItem('uuid')}/items/${props.data?.name}`)
-
+        await deleteInventoryItem(props.data!.name)
         emits('deleteItem', "DELETING ITEM")
-        await deleteDoc(document);
     }
 
     onMounted(() => {
@@ -192,7 +191,7 @@
 
     <ActionVerification 
         v-if="formStore.verificationOpen"
-        @affirmative-clicked="async () => await deleteItem()"
+        @affirmative-clicked="async () => {await deleteItem(); formStore.verificationOpen = false}"
         @negative-clicked="formStore.verificationOpen = false"
     >
         Are you sure you want to delete this item?

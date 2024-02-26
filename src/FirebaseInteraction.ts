@@ -47,6 +47,11 @@ async function addInventoryItem(uid: string, itemName : string, itemData: Item) 
     }
 }
 
+async function deleteInventoryItem(item: string) {
+    const document = doc(getFirestore(fbApp), `/inventories/${localStorage.getItem('uuid')}/items/${item}`)
+    await deleteDoc(document);
+}
+
 async function getListCollection() {
     const db = getFirestore(fbApp);
     const currUser = localStorage.getItem('uuid');
@@ -77,11 +82,17 @@ async function addListItem(uid: string, itemName : string, itemData: ListItem) {
     }
 }
 
+async function deleteListItem(item: string) {
+    const document = doc(getFirestore(fbApp), `/lists/${localStorage.getItem('uuid')}/items/${item}`)
+    await deleteDoc(document);
+}
 
 export {
     getDataItem,
     addInventoryItem,
+    deleteInventoryItem,
     getInventoryCollection,
     getListCollection,
     addListItem,
+    deleteListItem
 }

@@ -1,9 +1,12 @@
 <script setup lang="ts">
     import { ref } from 'vue'
     import type { ListItem } from './../InventoryManagement/Types'
-    import type { PropType} from 'vue'
+    import type { PropType } from 'vue'
+    import ActionVerification from './../InventoryManagement/ActionVerification.vue';
     import { ChevronDown, CheckIcon, TrashIcon, EditIcon, UndoIcon, CartIcon, TagIcon, NotesIcon } from '../Icons';
     import { placeholderListItemData} from './../InventoryManagement/Utility'
+    import { useFormStore } from '@/stores/FormStore';
+    import { deleteListItem } from '@/FirebaseInteraction'
 
     const props = defineProps({
         data: {
@@ -12,13 +15,20 @@
         }
     })
 
-    const emits = defineEmits(['check', 'uncheck'])
+    const emits = defineEmits(['check', 'uncheck', 'deleteItem'])
+
+    const formStore = useFormStore()
 
     const open = ref<boolean>(false);
     const checked = ref<boolean>(false);
 
     function toggleOpen() {
         open.value = !open.value
+    }
+
+    async function deleteItem () {
+        await deleteListItem(props.data!.name)
+        emits('deleteItem', "DELETING ITEM")
     }
 
     function toggleChecked() {
@@ -32,11 +42,7 @@
         }
     }
 
-
     /*TODO
-    - Additional CSS fixes and improvements
-    - Pull In data from DB
-    - Add new list item
     - Edit/delete functionality
     - Check-off -> all items checked off, add to Inventory?
     - Add to inventory form? btn? 
@@ -95,7 +101,13 @@
                 <div class="notes">{{ props.data.notes }}</div>
             </div>
             <div class="buttons">
-                <div class="btn leftBtn"><div>Delete</div> <TrashIcon/> </div>
+                <div 
+                    class="btn leftBtn"
+                    @click = "formStore.verificationOpen = true"
+                >
+                    <div>Delete</div>
+                    <TrashIcon/> 
+                </div>
                 <div class="btn centerBtn"><div>Edit</div> <EditIcon/> </div>
                 <div 
                     :class="['btn', checked? 'rightBtn' : 'rightBtnChecked']"
@@ -115,6 +127,14 @@
             </div>
         </div>
     </div>
+
+    <ActionVerification 
+        v-if="formStore.verificationOpen"
+        @affirmative-clicked="async () => {await deleteItem(); formStore.verificationOpen = false;}"
+        @negative-clicked="formStore.verificationOpen = false"
+    >
+        Are you sure you want to delete this item?
+    </ActionVerification>
 </template>
 
 <style scoped>
@@ -231,6 +251,7 @@
         width: 100%;
         margin: 5px;
         border-radius: 0px 0px 0px 15px;
+        background-color: orangered;
     }
 
     .centerBtn {

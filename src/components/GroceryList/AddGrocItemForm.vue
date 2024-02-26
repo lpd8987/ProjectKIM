@@ -2,14 +2,16 @@
     import { LeftArrowIcon, CircleIcon } from '../Icons';
     import DropdownMenu from '../DropdownMenu.vue';
     import TagPicker from '../TagPicker.vue'
-    import { ref } from 'vue'
+    import { ref, onUnmounted} from 'vue'
     import { useFormStore } from '@/stores/FormStore';
     import type { ListItem, FirebaseTimestamp } from './../InventoryManagement/Types';
     import { addListItem } from './../../FirebaseInteraction'
+    import { useTagStore } from '@/stores/TagStore';
 
     const emits = defineEmits(['addItem'])
 
     const formStore = useFormStore();
+    const tagStore = useTagStore();
 
     const name = ref<string>();
     const notes = ref<string>();
@@ -89,6 +91,9 @@
         console.log(message)
     }
 
+    onUnmounted(() => {
+        tagStore.clearAllTags()
+    })
 </script>
 
 <template>
@@ -118,23 +123,19 @@
                 </div>
 
                 <TagPicker
+                    :picker-id="'typeTags'"
                     :tags="typeTags"
                     @tags-changed="
-                        returnObj.type = JSON.parse(JSON.stringify($event));
-                        logEv($event);
-                        logObj();
-                        logActivate('TYPE TAG CHANGE')"
+                        returnObj.type = JSON.parse(JSON.stringify($event));"
                 >
                     Type
                 </TagPicker>
 
                 <TagPicker
+                    :picker-id="'grocTypeTags'"
                     :tags="grocTags"
                     @tags-changed="
-                        returnObj.groceryType = JSON.parse(JSON.stringify($event));
-                        logEv($event);
-                        logObj();
-                        logActivate('GROC TYPE TAG CHANGE');"
+                        returnObj.groceryType = JSON.parse(JSON.stringify($event));"
                 >
                     Grocery Type
                 </TagPicker>

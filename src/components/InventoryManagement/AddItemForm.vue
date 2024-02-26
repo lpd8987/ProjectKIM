@@ -2,14 +2,16 @@
     import { LeftArrowIcon, CircleIcon } from '../Icons';
     import DropdownMenu from '../DropdownMenu.vue';
     import TagPicker from '../TagPicker.vue'
-    import { ref } from 'vue'
+    import { ref, onUnmounted } from 'vue'
     import { useFormStore } from '@/stores/FormStore';
     import type { Item, FirebaseTimestamp } from './Types';
     import { addInventoryItem } from './../../FirebaseInteraction'
+    import { useTagStore } from '@/stores/TagStore';
 
     const emits = defineEmits(['addItem'])
 
     const formStore = useFormStore();
+    const tagStore = useTagStore();
 
     const name = ref<string>();
     const measurement = ref<string>();
@@ -119,7 +121,10 @@
 
         formStore.newItemFormOpen = false;
     }
-
+    
+    onUnmounted(() => {
+        tagStore.clearAllTags()
+    })
 </script>
 
 <template>
@@ -148,9 +153,21 @@
 
                 <DropdownMenu :options="stockOptions" @selection-change="returnObj.quantity = $event; logObj()" />
 
-                <TagPicker :tags="typeTags" @tags-changed="returnObj.type = JSON.parse(JSON.stringify($event)); logObj()">Type</TagPicker>
+                <TagPicker
+                    :picker-id="'typeTags'"
+                    :tags="typeTags"
+                    @tags-changed="returnObj.type = JSON.parse(JSON.stringify($event))"
+                >
+                    Type
+                </TagPicker>
 
-                <TagPicker :tags="grocTags" @tags-changed="returnObj.groceryType = JSON.parse(JSON.stringify($event)); logObj()">Grocery Type</TagPicker>
+                <TagPicker
+                    :picker-id="'grocTypeTags'"
+                    :tags="grocTags"
+                    @tags-changed="returnObj.groceryType = JSON.parse(JSON.stringify($event))"
+                >
+                    Grocery Type
+                </TagPicker>
 
                 <div class="optionalPropsHeader">
                     Optional Items:

@@ -7,8 +7,9 @@
     import AddGrocItemForm from './AddGrocItemForm.vue';
     import { useFormStore } from '../../stores/FormStore'
     import { getAuth } from "firebase/auth";
-    import type { ListItem } from '../InventoryManagement/Types';
+    import type { Item, ListItem } from '../InventoryManagement/Types';
     import { PlusIcon } from './../Icons'
+    import InventoryAddForm from './InventoryAddForm.vue'
 
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
@@ -20,6 +21,7 @@
     const dbData = ref<Array<object>>();
     const loading = ref<boolean>(false);
     const checkedNum = ref<number>(0);
+    const checkedItems = ref<Array<Item>>([])
 
     async function checkList() : Promise<void> {
         if(!uuid) return;
@@ -27,6 +29,15 @@
         loading.value = true;
         dbData.value = await getListCollection();
         loading.value = false;
+    }
+
+    function addToCheckedItems(item: Item) {
+        if(!checkedItems.value.includes(item)) checkedItems.value.push(item);
+    }
+
+    function removeFromCheckedItems(item: Item) {
+        const index = checkedItems.value.indexOf(item);
+        if(index !== -1) checkedItems.value.splice(index, 1);
     }
 
     onMounted(async () => {
@@ -38,7 +49,10 @@
     <div class="title">YOUR GROCERY LIST:</div>
 
     <Transition name="slide">
-        <div class="addBtn" v-if="checkedNum > 0">
+        <div 
+            class="addBtn" v-if="checkedNum > 0"
+            @click="formStore.addManyFormOpen = true"
+        >
             Add all checked to inventory
             <PlusIcon />
         </div>
@@ -50,8 +64,8 @@
                 v-for="(item, index) of dbData"
                 :data="(item as ListItem)"
                 @delete-item="async () => await checkList()"
-                @uncheck="checkedNum--"
-                @check="checkedNum++"
+                @uncheck="checkedNum--; removeFromCheckedItems(item as Item)"
+                @check="checkedNum++; addToCheckedItems(item as Item)"
             />
         </div>
         <div v-else-if="dbData && dbData.length === 0">
@@ -79,10 +93,29 @@
             @add-item="async () => await checkList()"
         /> 
     </Transition>
+
+    <Transition name="slideLeft">
+        <InventoryAddForm 
+            v-if="formStore.addManyFormOpen"
+            :data="checkedItems"
+            @update="async() => {await checkList(); checkedItems = []; checkedNum = 0}"
+        />
+    </Transition>
 </template>
 
 <style scoped>
     @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    .slideLeft-enter-active,
+    .slideLeft-leave-active {
+        transition: all .5s ease;
+    }
+
+    .slideLeft-enter-from,
+    .slideLeft-leave-to {
+        opacity: 0%;
+        transform: translateY(-100%);
+    }
 
     .addItemBtn {
         display: flex;
@@ -154,15 +187,5 @@
         font-size: 22px;
         font-weight: 900;
         text-align: center;
-    }
-
-    .slide-enter-active,
-    .slide-leave-active {
-        transition: all .5s ease;
-    }
-
-    .slide-enter-from,
-    .slide-leave-to {
-        opacity: 0%;
     }
 </style>

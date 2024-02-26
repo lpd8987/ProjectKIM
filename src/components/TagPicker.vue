@@ -1,8 +1,12 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, onBeforeMount } from 'vue';
     import { CrossIcon, ChevronDown } from './Icons'
+    import { useTagStore } from './../stores/TagStore'
 
     const props = defineProps({
+        pickerId : {
+            type: String
+        },
         tags: {
             type: Array<string>
         },
@@ -13,25 +17,27 @@
     });
 
     const emits = defineEmits([`tagsChanged`]);
+
+    const tagStore = useTagStore();
     
-    const selectedTags = ref<Array<string>>(props.selected);
     const open = ref<boolean>(false)
 
     function toggleOpen() {
         open.value = !open.value;
     }
 
-    function removeFromSelected(item: string) {
+/*     function removeFromSelected(item: string) {
         const itemIndex : number = selectedTags.value.indexOf(item);
 
         if(itemIndex === -1) return;
 
         selectedTags.value.splice(itemIndex, 1);
-    }
+    } */
 
-    function logTags() {
-        console.log('selectedTags', selectedTags.value)
-    }
+    onBeforeMount(() => {
+        tagStore.addTagCollection(props.pickerId!);
+        console.log(props.pickerId)
+    })
 </script>
 
 <template>
@@ -51,14 +57,16 @@
             >
                 <div 
                     class="selectedTag" 
-                    v-if="selectedTags.includes(tag)"
+                    v-if="tagStore.getSelectedTags(pickerId!).includes(tag)"
                 >
                     <div>{{ tag }}</div>
-                    <CrossIcon @click="removeFromSelected(tag); $emit('tagsChanged', selectedTags)"/>
+                    <CrossIcon
+                        @click="tagStore.removeSelectedTag(pickerId!, tag);
+                        $emit('tagsChanged', tagStore.getSelectedTags(props.pickerId!))"/>
                 </div>
                 <div
                     class="unselectedTag"
-                    @click="selectedTags.push(tag); $emit('tagsChanged', selectedTags)"
+                    @click="tagStore.addSelectedTag(pickerId!, tag); $emit('tagsChanged', tagStore.getSelectedTags(props.pickerId!))"
                     v-else
                 >
                     <div>{{ tag }}</div>
