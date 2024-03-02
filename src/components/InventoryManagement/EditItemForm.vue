@@ -63,6 +63,7 @@
     ]
 
     function validateReturnObj() : boolean {
+        
         if (Number.isNaN(returnObj.expirationDate?.seconds)){
             delete returnObj.expirationDate
         }
