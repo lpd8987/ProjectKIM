@@ -2,7 +2,7 @@
     import { LeftArrowIcon, CircleIcon } from '../Icons';
     import DropdownMenu from '../DropdownMenu.vue';
     import TagPicker from '../TagPicker.vue'
-    import { ref } from 'vue'
+    import { onMounted, ref } from 'vue'
     import { useFormStore } from '@/stores/FormStore';
     import type { Item, FirebaseTimestamp } from './Types';
     import type { PropType } from 'vue';
@@ -63,6 +63,10 @@
     ]
 
     function validateReturnObj() : boolean {
+        if (Number.isNaN(returnObj.expirationDate?.seconds)){
+            delete returnObj.expirationDate
+        }
+
         if(
             returnObj.name.trim() === '' ||
             returnObj.itemId === '' ||
@@ -111,9 +115,24 @@
         emits('save', "");
 
         await addInventoryItem(localStorage.getItem('uuid')!, returnObj.name, returnObj);
-
-        formStore.newItemFormOpen = false;
     }
+
+    function formatDate(date: Date) {
+
+        //console.log(date.toLocaleDateString())
+
+        const month = date.getMonth() + 1;
+        const day = date.getDate()
+
+        let retVal = `${date.getFullYear()}-${month >= 10? month : `0${month}`}-${day >= 10? day : `0${day}`}`
+        console.log(retVal)
+
+        return retVal;
+    }
+
+    onMounted(() => {
+
+    })
 
 </script>
 
@@ -146,6 +165,7 @@
                 <TagPicker
                     :tags="typeTags" 
                     @tags-changed="returnObj.type = JSON.parse(JSON.stringify($event)); logObj()"
+                    :picker-id="'editTypePicker'"
                     :selected="returnObj.type"
                 >
                     Type
@@ -154,6 +174,7 @@
                 <TagPicker
                     :tags="grocTags"
                     @tags-changed="returnObj.groceryType = JSON.parse(JSON.stringify($event)); logObj()"
+                    :picker-id="'editGrocTypePicker'"
                     :selected="returnObj.groceryType"
                 >
                     Grocery Type
@@ -166,7 +187,11 @@
 
                     <div class="datePickerDiv">
                         <div>Expires</div>
-                        <input class="datePicker" type="date" @change="setExpDate($event); logObj()">
+                        <input 
+                            class="datePicker"
+                            type="date" 
+                            :value="data?.expirationDate? formatDate(new Date(data.expirationDate.seconds * 1000)) : null"
+                            @change="setExpDate($event); logObj()">
                     </div>
                     
                     <div class="quantityOpen">
@@ -205,7 +230,7 @@
             </div>
 
             <div class="btnDiv">
-                <button class="submitBtn" @click="async () => await addItemToDB() ">UPDATE</button>
+                <button class="submitBtn" @click="async () => { await addItemToDB(); $emit('save') } ">UPDATE</button>
             </div>
         </div>
 

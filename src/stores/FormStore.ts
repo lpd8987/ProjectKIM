@@ -7,5 +7,10 @@ export const useFormStore = defineStore('formData', () => {
     const newItemFormOpen = ref<boolean>(false);
     const addManyFormOpen = ref<boolean>(false)
 
-    return { verificationOpen, newItemFormOpen, signOutOpen, addManyFormOpen }
+    return { 
+        verificationOpen,
+        newItemFormOpen,
+        signOutOpen,
+        addManyFormOpen 
+    }
 })

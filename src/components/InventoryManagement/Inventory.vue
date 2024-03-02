@@ -46,6 +46,7 @@
                     v-for="(item, index) of dbData"
                     :data="(item as Item)"
                     @delete-item="async () => await checkInventory()"
+                    @refresh="async () => await checkInventory()"
                 />
             </div>
             <div v-else-if="dbData && dbData.length === 0">

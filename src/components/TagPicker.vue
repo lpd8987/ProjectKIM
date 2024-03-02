@@ -35,8 +35,14 @@
     } */
 
     onBeforeMount(() => {
-        tagStore.addTagCollection(props.pickerId!);
         console.log(props.pickerId)
+        tagStore.addTagCollection(props.pickerId!);
+
+        if (props.selected.length > 0) {
+            for(const tag of props.selected) {
+                tagStore.addSelectedTag(props.pickerId!, tag)
+            }
+        }
     })
 </script>
 
@@ -46,7 +52,11 @@
             :class="open? 'titleOpen' : 'titleClosed'"
             @click="toggleOpen"
         >
-            <slot></slot>
+            <div>
+                <slot></slot>
+                ( {{ selected.length }} )
+            </div>
+
             <ChevronDown />
         </div>
 

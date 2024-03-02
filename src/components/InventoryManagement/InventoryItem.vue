@@ -15,7 +15,7 @@
 
     const formStore = useFormStore();
 
-    const emits = defineEmits(['deleteItem'])
+    const emits = defineEmits(['deleteItem', 'refresh'])
     
     const props = defineProps({
         data: {
@@ -156,7 +156,7 @@
                         <CalendarCheckIcon class="notExpired" v-if="expiringStatus === 'Not Expired'" />
                         <ClockIcon class="expiringSoon" v-else-if="expiringStatus === 'Expiring Soon'" />
                         <CalendarExclamationIcon class="expired" v-else-if="expiringStatus === 'Expired'" />
-                        {{ expiringStatus==='Not Expired'? `Expires` : expiringStatus }}: {{ expDate!.toLocaleDateString() }}
+                        {{ expiringStatus==='Not Expired'? `Expires` : expiringStatus }}: {{ expDate?.toLocaleDateString() }}
                     </div>
 
                     <!--notes?-->
@@ -203,6 +203,7 @@
             v-if="editing"
             :data="data"
             @close="editing=false"
+            @save="editing=false; $emit('refresh'); toggle()"
         />
     </Transition>
 
