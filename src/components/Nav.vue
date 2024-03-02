@@ -14,7 +14,7 @@
 
     async function signOut() {
         await signOutSession();
-        router.push('/signIn');
+        router.push('/');
 
         formStore.signOutOpen = false
     }
