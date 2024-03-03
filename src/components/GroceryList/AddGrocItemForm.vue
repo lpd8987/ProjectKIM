@@ -28,6 +28,7 @@
         'Condiment',
         'Meal',
         'Snack',
+        'Tool',
         'Utility'
     ]
 
@@ -50,6 +51,7 @@
         'Snack Food',
         'Instant Meal',
         'Alcohol',
+        'Spices',
         'Other'
     ]
 

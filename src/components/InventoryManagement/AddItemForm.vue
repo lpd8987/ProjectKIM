@@ -30,7 +30,7 @@
 
     const stockOptions = [
         {icon: CircleIcon, fill: 'greenyellow', item: 'Well-Stocked'},
-        {icon: CircleIcon, fill: 'gold', item: 'Moderately-Stocked'},
+        {icon: CircleIcon, fill: 'gold', item: 'Semi-Stocked'},
         {icon: CircleIcon, fill: 'orangered', item: 'Low'},
         {icon: CircleIcon, fill: 'gray', item: 'Out'}]
 
@@ -39,6 +39,7 @@
         'Condiment',
         'Meal',
         'Snack',
+        'Tool',
         'Utility'
     ]
 
@@ -61,6 +62,7 @@
         'Snack Food',
         'Instant Meal',
         'Alcohol',
+        'Spices',
         'Other'
     ]
 

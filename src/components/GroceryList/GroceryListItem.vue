@@ -42,12 +42,6 @@
         }
     }
 
-    /*TODO
-    - Edit/delete functionality
-    - Check-off -> all items checked off, add to Inventory?
-    - Add to inventory form? btn? 
-    - Convert listItem to inventoryItem*/
-
 </script>
 
 <template>

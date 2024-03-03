@@ -77,6 +77,10 @@
         font-size: 24px;
         font-family: "Comfortaa", sans-serif;
         margin-left: 10px;
+        width: 175px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .dropdown {
