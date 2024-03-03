@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { LogoOpenIconVue, GoogleIconVue } from "../Icons";
+    import { LogoOpenIconVue } from "../Icons";
     import GoogleSignInBtn from "./GoogleSignInBtn.vue";
 </script>
 
@@ -14,7 +14,7 @@
     </div>
 
     <div class="version">
-        alpha v1.1
+        alpha v1.2
     </div>
 
 </template>

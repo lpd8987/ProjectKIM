@@ -18,6 +18,7 @@ import CheckIcon from "./CheckIcon.vue";
 import UndoIcon from "./UndoIcon.vue";
 import LogoOpenIconVue from "./LogoOpenIcon.vue";
 import GoogleIconVue from "./GoogleIcon.vue";
+import HamburgerIcon from "./HamburgerIcon.vue";
 
 export {
     ClockIcon,
@@ -39,5 +40,6 @@ export {
     CheckIcon,
     UndoIcon,
     LogoOpenIconVue,
-    GoogleIconVue
+    GoogleIconVue,
+    HamburgerIcon
 }
