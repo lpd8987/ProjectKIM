@@ -3,6 +3,7 @@ import SignIn from '@/components/OAuth/SignIn.vue';
 import UserHome from '@/components/UserHome.vue';
 import Inventory from '@/components/InventoryManagement/Inventory.vue';
 import GroceryList from '@/components/GroceryList/GroceryList.vue';
+import Recipes from '@/components/Recipes/Recipes.vue';
 import { checkSignIn } from '@/components/OAuth/OAuth';
 
 const router = createRouter({
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/list',
       name: "List",
       component: GroceryList 
+    },
+    {
+      path: '/recipes',
+      name: "Recipes",
+      component: Recipes 
     },
   ]
 })

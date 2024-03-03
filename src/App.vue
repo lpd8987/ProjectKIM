@@ -6,7 +6,6 @@ import { RouterView } from 'vue-router'
     <Transition name="fade">
         <RouterView></RouterView>
     </Transition>
-
 </template>
 
 <style scoped>

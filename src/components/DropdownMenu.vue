@@ -5,6 +5,10 @@
     const props = defineProps({
         options: {
             type: Array<{icon: Component, fill: string, item: string}>
+        },
+        selectedIndex: {
+            type: Number,
+            default: 0
         }
     })
 
@@ -14,7 +18,7 @@
     const optionsDiv = ref<HTMLElement | null>()
 
     const open = ref<boolean>(false);
-    const selectedIndex = ref<number>(0);
+    const selectedIndex = ref<number>(props.selectedIndex);
     const selectedItem = ref<string>(props.options![0].item);
 
     function toggleOpen() {

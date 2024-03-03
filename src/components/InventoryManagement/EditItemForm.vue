@@ -4,9 +4,9 @@
     import TagPicker from '../TagPicker.vue'
     import { onMounted, ref } from 'vue'
     import { useFormStore } from '@/stores/FormStore';
-    import type { Item, FirebaseTimestamp } from './Types';
+    import type { Item, FirebaseTimestamp, Quantity } from './Types';
     import type { PropType } from 'vue';
-    import { addInventoryItem } from './../../FirebaseInteraction'
+    import { addInventoryItem, deleteInventoryItem } from './../../FirebaseInteraction'
 
     const emits = defineEmits(['close', 'save'])
 
@@ -16,7 +16,7 @@
         }
     })
 
-    const formStore = useFormStore();
+    const startName = props.data?.name;
 
     const returnObj : Item = props.data!;
 
@@ -85,11 +85,6 @@
         console.log(returnObj)
     }
 
-    function logEvent (ev: Event) {
-        console.log(ev)
-    }
-
-
     function setExpDate(ev: any) {
         const evDate = new Date(ev.target.value)
 
@@ -108,11 +103,18 @@
     }
 
     async function addItemToDB() {
-        console.log("CALLED")
+        //make sure the object can be added to the db without error
         if (!validateReturnObj()) {
             console.log("Invalid Return Obj");
             return
         }
+
+        //if the original name is changed, delete the original entry
+        //(else creates new entry)
+        if (returnObj.name !== startName){
+            deleteInventoryItem(startName!);
+        }
+
         emits('save', "");
 
         await addInventoryItem(localStorage.getItem('uuid')!, returnObj.name, returnObj);
@@ -129,6 +131,21 @@
         console.log(retVal)
 
         return retVal;
+    }
+
+    function returnOptionIndex(quantity: Quantity) : number {
+        switch(quantity) {
+            case 'Well-Stocked':
+                return 0;
+            case 'Moderately-Stocked':
+                return 1;
+            case 'Low':
+                return 2;
+            case 'Out':
+                return 3;
+            default:
+                return 0;
+        }
     }
 
     onMounted(() => {
@@ -161,7 +178,11 @@
                     >
                 </div>
 
-                <DropdownMenu :options="stockOptions" @selection-change="returnObj.quantity = $event; logObj()" />
+                <DropdownMenu
+                    :options="stockOptions"
+                    :selected-index="returnOptionIndex(returnObj.quantity)"
+                    @selection-change="returnObj.quantity = $event; logObj()"
+                />
 
                 <TagPicker
                     :tags="typeTags" 

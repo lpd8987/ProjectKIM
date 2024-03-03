@@ -32,6 +32,7 @@
     }
 
     onMounted(async () => {
+        document.title = 'My Kitchen Inventory';
         setTimeout(await checkInventory, 100);
     })
 

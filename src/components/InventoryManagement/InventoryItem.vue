@@ -159,6 +159,11 @@
                         {{ expiringStatus==='Not Expired'? `Expires` : expiringStatus }}: {{ expDate?.toLocaleDateString() }}
                     </div>
 
+                    <div class="addDiv" v-if="expiringStatus === 'Expired'">
+                        <div class="outMsg">Looks like this item is expired. Add to grocery list?</div>
+                        <button class="btn addBtn">Add +</button>
+                    </div>
+
                     <!--notes?-->
                     <div class="bottomLine" v-if="data?.notes">
                         <div class="flexRow notesSection"><NotesIcon/> Notes:</div>

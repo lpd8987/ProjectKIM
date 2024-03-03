@@ -42,6 +42,7 @@
     }
 
     onMounted(async () => {
+        document.title = 'My Grocery List';
         setTimeout(await checkList, 100);
     })
 </script>
