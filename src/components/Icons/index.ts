@@ -16,6 +16,8 @@ import PlusIcon from "./PlusIcon.vue";
 import SignOutIcon from './SignOutIcon.vue';
 import CheckIcon from "./CheckIcon.vue";
 import UndoIcon from "./UndoIcon.vue";
+import LogoOpenIconVue from "./LogoOpenIcon.vue";
+import GoogleIconVue from "./GoogleIcon.vue";
 
 export {
     ClockIcon,
@@ -35,5 +37,7 @@ export {
     PlusIcon,
     SignOutIcon,
     CheckIcon,
-    UndoIcon
+    UndoIcon,
+    LogoOpenIconVue,
+    GoogleIconVue
 }

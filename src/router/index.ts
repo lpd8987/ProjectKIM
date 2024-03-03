@@ -27,7 +27,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  if(to.path !== '/signIn') {
+  if(to.path !== '/') {
     if (!checkSignIn()){
       return { name: 'Sign In'}
     }

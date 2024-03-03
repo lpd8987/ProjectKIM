@@ -10,6 +10,7 @@
     import type { Item, ListItem } from '../InventoryManagement/Types';
     import { PlusIcon } from './../Icons'
     import InventoryAddForm from './InventoryAddForm.vue'
+    import Nav from '../Nav.vue';
 
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
@@ -46,6 +47,8 @@
 </script>
 
 <template>
+    <Nav active-page="list"/>
+
     <div class="title">YOUR GROCERY LIST:</div>
 
     <Transition name="slide">

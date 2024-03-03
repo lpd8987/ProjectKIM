@@ -22,6 +22,8 @@
     
     const open = ref<boolean>(false)
 
+    const numSelected = ref<number>(props.selected.length);
+
     function toggleOpen() {
         open.value = !open.value;
     }
@@ -54,7 +56,7 @@
         >
             <div>
                 <slot></slot>
-                ( {{ selected.length }} )
+                ( {{ numSelected }} )
             </div>
 
             <ChevronDown />
@@ -71,12 +73,15 @@
                 >
                     <div>{{ tag }}</div>
                     <CrossIcon
-                        @click="tagStore.removeSelectedTag(pickerId!, tag);
+                        @click="tagStore.removeSelectedTag(pickerId!, tag); 
+                        numSelected--;
                         $emit('tagsChanged', tagStore.getSelectedTags(props.pickerId!))"/>
                 </div>
                 <div
                     class="unselectedTag"
-                    @click="tagStore.addSelectedTag(pickerId!, tag); $emit('tagsChanged', tagStore.getSelectedTags(props.pickerId!))"
+                    @click="tagStore.addSelectedTag(pickerId!, tag);
+                    numSelected++; 
+                    $emit('tagsChanged', tagStore.getSelectedTags(props.pickerId!))"
                     v-else
                 >
                     <div>{{ tag }}</div>

@@ -3,11 +3,16 @@
     import { SignOutIcon } from './Icons'
     import { signOutSession } from './OAuth/OAuth'
     import router from './../router'
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { useFormStore } from '@/stores/FormStore';
     import ActionVerification from './InventoryManagement/ActionVerification.vue';
 
-    const active = ref<string>('inventory');
+    const props = defineProps({
+        activePage: {
+            type: String
+        }
+    })
+
     const formStore = useFormStore();
 
     const emits = defineEmits(['activeChanged'])
@@ -16,12 +21,12 @@
         await signOutSession();
         router.push('/');
 
-        formStore.signOutOpen = false
+        formStore.signOutOpen = false;
     }
-    
-    function setActivePage (page : string) {
-        active.value = page;
-    }
+
+    onMounted(() => {
+        console.log(props.activePage)
+    })
     
 </script>
 
@@ -29,24 +34,21 @@
     <div class="nav">
 
         <RouterLink 
-            :class="active === 'inventory'? 'linkActive' : 'link'" 
-            @click="setActivePage('inventory')"
+            :class="activePage === 'inventory'? 'linkActive' : 'link'" 
             :to="'/inventory'"
         >
             Inventory
         </RouterLink>
 
         <RouterLink
-            :class="active === 'list'? 'linkActive' : 'link'" 
-            @click="setActivePage('list')"
+            :class="activePage === 'list'? 'linkActive' : 'link'" 
             :to="'/list'"
         >
             List
         </RouterLink>
 
         <RouterLink
-            :class="active === 'recipes'? 'linkActive' : 'link'" 
-            @click="setActivePage('recipes')"
+            :class="activePage === 'recipes'? 'linkActive' : 'link'" 
             :to="'/recipes'"
         >
             Recipes

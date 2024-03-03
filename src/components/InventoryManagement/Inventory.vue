@@ -9,6 +9,7 @@
     import { useFormStore } from '../../stores/FormStore'
     import { PlusIcon } from '../Icons';
     import { getAuth } from "firebase/auth";
+    import Nav from "../Nav.vue";
 
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
@@ -38,6 +39,8 @@
 
 <template>
     <div>
+        <Nav active-page="inventory"/>
+
         <div class="pageTitle">YOUR KITCHEN INVENTORY</div>
 
         <div class="inventory">
