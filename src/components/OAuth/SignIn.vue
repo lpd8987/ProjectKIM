@@ -14,7 +14,7 @@
     </div>
 
     <div class="version">
-        alpha v1.0
+        alpha v1.1
     </div>
 
 </template>

@@ -10,6 +10,7 @@
     import { PlusIcon } from '../Icons';
     import { getAuth } from "firebase/auth";
     import Nav from "../Nav.vue";
+import UndoIcon from "../Icons/UndoIcon.vue";
 
     const auth = getAuth(fbApp);
     const existingSessionData = JSON.parse(sessionStorage.getItem(`firebase:authUser:${import.meta.env.VITE_APP_FIREBASE_KEY}:${auth.name}`)!);
@@ -63,8 +64,16 @@
                 class="addItemBtn"
                 @click="formStore.newItemFormOpen = true"
             >
-                <div>Add New Item</div>
+                <div>Add Item</div>
                 <PlusIcon />
+            </button>
+
+            <button 
+                class="addItemBtn"
+                @click="async () => await checkInventory()"
+            >
+                <div>Refresh</div>
+                <UndoIcon />
             </button>
         </div>
     </div>
@@ -90,7 +99,7 @@
         align-items: center;
         justify-content: space-between;
         font-size: 24px;
-        width: 80%;
+        width: 45%;
         padding: 15px;
         border-radius: 15px;
     }
@@ -99,7 +108,7 @@
     .addNew {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
         position: absolute;
         bottom: 7px;
